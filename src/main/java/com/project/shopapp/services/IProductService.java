@@ -17,6 +17,8 @@ public interface IProductService {
     Page<ProductResponse> getProductsByCategory(PageRequest pageRequest, long cateId);
 
     Product updateProduct(ProductDTO productDTO, long id) throws Exception;
+
+    Product updateProductThumnail(String thumnail, long id) throws Exception;
     void deleteProduct(long id);
     boolean existsByName(String name);
 

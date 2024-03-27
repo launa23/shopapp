@@ -7,7 +7,10 @@ import com.project.shopapp.models.Role;
 import com.project.shopapp.models.User;
 import com.project.shopapp.repositories.RoleRepository;
 import com.project.shopapp.repositories.UserRepository;
+import com.project.shopapp.responses.UserResponse;
 import io.jsonwebtoken.Jwts;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -80,5 +83,23 @@ public class UserService implements IUserService{
         authenticationManager.authenticate(authenticationToken);
         // Khi đăng nhập thành công thì sẽ lấy thông tin của user đó biến nó thành token
         return jwtTokenUtil.generateToken(existingUser);    // trả về token
+    }
+
+    @Override
+    public UserResponse getCurrent(HttpServletRequest request) throws Exception {
+        String authenHeader = request.getHeader("Authorization");
+        final String token = authenHeader.substring(7);         // cắt bỏ chữ "Bearer " trong chuỗi bearer token để lấy token
+        final String phoneNumber = jwtTokenUtil.extractPhoneNumber(token);
+        User existingUser = userRepository.findByPhoneNumber(phoneNumber)
+                .orElseThrow(() -> new DataNotFoundException("Cannot find user"));
+
+        return UserResponse.builder()
+                .id(existingUser.getId())
+                .fullName(existingUser.getFullName())
+                .phoneNumber(existingUser.getPhoneNumber())
+                .dateOfBirth(existingUser.getDateOfBirth())
+                .address(existingUser.getAddress())
+                .role(existingUser.getRole().getName())
+                .build();
     }
 }

@@ -100,6 +100,13 @@ public class ProductService implements IProductService{
     }
 
     @Override
+    public Product updateProductThumnail(String thumnail, long id) throws Exception {
+        Product existingProduct = getProductById(id);
+        existingProduct.setThumnail(thumnail);
+        return productRepository.save(existingProduct);
+    }
+
+    @Override
     public void deleteProduct(long id) {
         Optional<Product> optionalProduct = productRepository.findById(id);
         if (optionalProduct.isPresent()){           // kiểm tra xem có tồn tại không, nếu có thì xóa, nếu không thì thôi

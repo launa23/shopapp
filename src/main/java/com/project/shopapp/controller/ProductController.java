@@ -13,6 +13,7 @@ import com.project.shopapp.services.IProductService;
 import com.project.shopapp.services.ProductService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.io.UrlResource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -89,11 +90,23 @@ public class ProductController {
                     .build();
             productResponse.setCreatedAt(product.getCreatedAt());
             productResponse.setUpdatedAt(product.getUpdatedAt());
-            return ResponseEntity.ok(productResponse);
+
+            // Gửi ảnh về phía client
+            Path imgPath = Paths.get("uploads/" + product.getThumnail());
+            UrlResource urlResource = new UrlResource(imgPath.toUri());
+            if (urlResource.exists()){
+                return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(urlResource);
+            }
+            else {
+                return ResponseEntity.notFound().build();
+            }
+
+//            return ResponseEntity.ok(productResponse);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
+
 
     @PostMapping("")
     public ResponseEntity<?> insertProducts(
@@ -138,7 +151,10 @@ public class ProductController {
                         return ResponseEntity.status(HttpStatus.UNSUPPORTED_MEDIA_TYPE).body("File must be an image!");
                     }
                     String filename = storeFile(file);
-                    // Lưu vào đối tượng product trong DB => làm sau
+                    if (existingProduct.getThumnail().equals("")){
+                        existingProduct.setThumnail(filename);
+                        productService.updateProductThumnail(filename, id);
+                    }
                     ProductImage productImage = productService.createProductImage(existingProduct.getId(), ProductImageDTO.builder()
                             .imgeUrl(filename)
                             .build());
@@ -153,9 +169,9 @@ public class ProductController {
     }
     // Hàm xử lý lưu file ảnh
     private String storeFile(MultipartFile file) throws IOException {
-        if (!isImageFile(file) || file.getOriginalFilename() == null){
-            throw new IOException("Invalid image format");
-        }
+//        if (!isImageFile(file) || file.getOriginalFilename() == null){
+//            throw new IOException("Invalid image format");
+//        }
         String filename = StringUtils.cleanPath(Objects.requireNonNull(file.getOriginalFilename()));
         // Khi up load file lên có thể tên trùng nhau nó s bị ghi đè, nên phải tạo ra 1 cái tên file duy nhất bằng random
         String uniqueFilename = UUID.randomUUID().toString() + "_" + filename;
