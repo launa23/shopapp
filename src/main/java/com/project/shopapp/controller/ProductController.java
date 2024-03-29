@@ -150,6 +150,7 @@ public class ProductController {
                     if (contentType == null || !contentType.startsWith("image/")){
                         return ResponseEntity.status(HttpStatus.UNSUPPORTED_MEDIA_TYPE).body("File must be an image!");
                     }
+                    // set thumnail cho sản phẩm khi thêm ảnh mới
                     String filename = storeFile(file);
                     if (existingProduct.getThumnail().equals("")){
                         existingProduct.setThumnail(filename);
