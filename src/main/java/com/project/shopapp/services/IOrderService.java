@@ -7,7 +7,7 @@ import com.project.shopapp.models.Order;
 import java.util.List;
 
 public interface IOrderService {
-    Order createOrder(OrderDTO orderDTO) throws Exception;
+    Order createOrder(OrderDTO orderDTO, long userId) throws Exception;
     Order getOrderById(long id) throws Exception;
     List<Order> getAllOrdersByUser(long userId) throws Exception;
     Order updateOrder(long id, OrderDTO orderDTO) throws DataNotFoundException;

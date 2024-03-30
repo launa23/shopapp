@@ -22,10 +22,10 @@ public class OrderService implements IOrderService{
     private final UserRepository userRepository;
     private final ModelMapper modelMapper;
     @Override
-    public Order createOrder(OrderDTO orderDTO) throws Exception {
+    public Order createOrder(OrderDTO orderDTO, long userId) throws Exception {
         // Tìm xem userId có tồn tạ hay ko
-        User user = userRepository.findById(orderDTO.getUserId())
-                .orElseThrow(() -> new DataNotFoundException("Cannot find user id: " + orderDTO.getUserId()));
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new DataNotFoundException("Cannot find user id: " + userId));
         // Convert orderDTO -> order
         // Dùng thư viện để chuyển cho nhanh dùng model mapper
         // Ánh xạ từ OrderDTO sang Order và bỏ qua trường id, vì trong orderDTO không có trường id
@@ -69,13 +69,11 @@ public class OrderService implements IOrderService{
     public Order updateOrder(long id, OrderDTO orderDTO) throws DataNotFoundException {
         Order order = orderRepository.findById(id)
                 .orElseThrow(() -> new DataNotFoundException("Cannot find order by id " + id));
-        User existingUser = userRepository.findById(orderDTO.getUserId())
-                .orElseThrow(() -> new DataNotFoundException("Cannot find user by id " + id));
+
         modelMapper.typeMap(OrderDTO.class, Order.class)
                 .addMappings(mapper -> mapper.skip(Order::setId));
 //        Order order = new Order();
         modelMapper.map(orderDTO, order);
-        order.setUser(existingUser);
 
         return orderRepository.save(order);
     }

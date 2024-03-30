@@ -4,6 +4,8 @@ import com.project.shopapp.dtos.OrderDTO;
 import com.project.shopapp.exceptions.DataNotFoundException;
 import com.project.shopapp.models.Order;
 import com.project.shopapp.services.OrderService;
+import com.project.shopapp.services.UserService;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -18,15 +20,18 @@ import java.util.List;
 @RequiredArgsConstructor
 public class OrderController {
     private final OrderService orderService;
+    private final UserService userService;
     @PostMapping("")
-    public ResponseEntity<?> createOrder(@Valid @RequestBody OrderDTO orderDTO, BindingResult result){
+    public ResponseEntity<?> createOrder(@Valid @RequestBody OrderDTO orderDTO,
+                                         HttpServletRequest request,
+                                         BindingResult result){
         try {
             if (result.hasErrors()) {
                 List<String> errorMess = result.getFieldErrors().stream().map(FieldError::getDefaultMessage).toList();
                 return ResponseEntity.badRequest().body(errorMess);
             }
-
-            Order order = orderService.createOrder(orderDTO);
+            Long userId = userService.getCurrent(request).getId();
+            Order order = orderService.createOrder(orderDTO, userId);
             return ResponseEntity.ok(order);
         }
         catch (Exception e){
