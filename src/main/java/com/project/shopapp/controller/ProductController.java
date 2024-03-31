@@ -170,7 +170,7 @@ public class ProductController {
                     }
                     // set thumnail cho sản phẩm khi thêm ảnh mới
                     String filename = storeFile(file);
-                    if (existingProduct.getThumnail().equals("")){
+                    if (existingProduct.getThumnail() == null || existingProduct.getThumnail().equals("")){
                         existingProduct.setThumnail(filename);
                         productService.updateProductThumnail(filename, id);
                     }
