@@ -38,7 +38,9 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests(requests -> {
                     requests.requestMatchers(
                             String.format("%s/user/register", apiPrefix),
-                            String.format("%s/user/login", apiPrefix)
+                            String.format("%s/user/login", apiPrefix),
+                            String.format("%s/products", apiPrefix),
+                            String.format("%s/categories", apiPrefix)
                     ).permitAll()
                             .requestMatchers(HttpMethod.POST,
                                     String.format("%s/order/**", apiPrefix)).hasAnyRole(Role.USER)
@@ -48,6 +50,14 @@ public class WebSecurityConfig {
                                     String.format("%s/order/**", apiPrefix)).hasAnyRole(Role.USER, Role.ADMIN)
                             .requestMatchers(HttpMethod.PUT,
                                     String.format("%s/order/**", apiPrefix)).hasRole(Role.ADMIN)
+                            .requestMatchers(HttpMethod.GET,
+                                    String.format("%s/products/image/*", apiPrefix)).permitAll()
+                            .requestMatchers(HttpMethod.GET,
+                                    String.format("%s/products/*", apiPrefix)).permitAll()
+                            .requestMatchers(HttpMethod.GET,
+                                    String.format("%s/products/category/*", apiPrefix)).permitAll()
+                            .requestMatchers(HttpMethod.GET,
+                                    String.format("%s/categories/*", apiPrefix)).permitAll()
                             .anyRequest().authenticated();
                 })
                 .csrf(AbstractHttpConfigurer::disable);
