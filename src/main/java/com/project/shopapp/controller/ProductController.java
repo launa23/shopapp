@@ -92,7 +92,26 @@ public class ProductController {
             productResponse.setUpdatedAt(product.getUpdatedAt());
 
             // Gửi ảnh về phía client
-            Path imgPath = Paths.get("uploads/" + product.getThumnail());
+//            Path imgPath = Paths.get("uploads/" + product.getThumnail());
+//            UrlResource urlResource = new UrlResource(imgPath.toUri());
+//            if (urlResource.exists()){
+//                return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(urlResource);
+//            }
+//            else {
+//                return ResponseEntity.notFound().build();
+//            }
+
+            return ResponseEntity.ok(productResponse);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @GetMapping("/image/{thumnail}")
+    public ResponseEntity<?> getImageOfProduct(@PathVariable("thumnail") String thumnail){
+        try {
+            // Gửi ảnh về phía client
+            Path imgPath = Paths.get("uploads/" + thumnail);
             UrlResource urlResource = new UrlResource(imgPath.toUri());
             if (urlResource.exists()){
                 return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(urlResource);
@@ -100,13 +119,12 @@ public class ProductController {
             else {
                 return ResponseEntity.notFound().build();
             }
-
-//            return ResponseEntity.ok(productResponse);
-        } catch (Exception e) {
+        }
+        catch (Exception e){
             return ResponseEntity.badRequest().body(e.getMessage());
         }
-    }
 
+    }
 
     @PostMapping("")
     public ResponseEntity<?> insertProducts(
