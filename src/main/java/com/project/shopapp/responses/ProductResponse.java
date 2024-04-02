@@ -26,4 +26,6 @@ public class ProductResponse extends BaseResponse{
     private String description;
 
     private String categoryName;
+
+    private long categoryId;
 }

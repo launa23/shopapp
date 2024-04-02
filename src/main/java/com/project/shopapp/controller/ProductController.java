@@ -87,6 +87,7 @@ public class ProductController {
                     .description(product.getDescription())
                     .thumnail(product.getThumnail())
                     .categoryName(product.getCategory().getName())
+                    .categoryId(product.getCategory().getId())
                     .build();
             productResponse.setCreatedAt(product.getCreatedAt());
             productResponse.setUpdatedAt(product.getUpdatedAt());
@@ -220,8 +221,9 @@ public class ProductController {
                     .name(product.getName())
                     .price(product.getPrice())
                     .description(product.getDescription())
-                    .thumnail(product.getThumnail())
+//                    .thumnail(product.getThumnail())
                     .categoryName(product.getCategory().getName())
+                    .categoryId(product.getCategory().getId())
                     .build();
             productResponse.setCreatedAt(product.getCreatedAt());
             productResponse.setUpdatedAt(product.getUpdatedAt());

@@ -56,6 +56,7 @@ public class ProductService implements IProductService{
                     .thumnail(product.getThumnail())
                     .description(product.getDescription())
                     .categoryName(product.getCategory().getName())
+                    .categoryId(product.getCategory().getId())
                     .build();
             productResponse.setCreatedAt(product.getCreatedAt());
             productResponse.setUpdatedAt(product.getUpdatedAt());
@@ -73,6 +74,7 @@ public class ProductService implements IProductService{
                     .thumnail(product.getThumnail())
                     .description(product.getDescription())
                     .categoryName(product.getCategory().getName())
+                    .categoryId(product.getCategory().getId())
                     .build();
             productResponse.setCreatedAt(product.getCreatedAt());
             productResponse.setUpdatedAt(product.getUpdatedAt());
@@ -91,7 +93,7 @@ public class ProductService implements IProductService{
             existingProduct.setName(productDTO.getName());
             existingProduct.setCategory(existingCategory);
             existingProduct.setPrice(productDTO.getPrice());
-            existingProduct.setThumnail(productDTO.getThumnail());
+//            existingProduct.setThumnail(productDTO.getThumnail());
             existingProduct.setDescription(productDTO.getDescription());
 
             return productRepository.save(existingProduct);
