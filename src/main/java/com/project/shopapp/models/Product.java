@@ -29,6 +29,9 @@ public class Product extends BaseEntity{
     @Column(name = "description")
     private String description;
 
+    @Column(name = "active", nullable = false)
+    private boolean active;
+
     @ManyToOne
     @JoinColumn(name = "category_id")
     private Category category;

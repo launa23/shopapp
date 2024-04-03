@@ -1,6 +1,7 @@
 package com.project.shopapp.controller;
 
 import com.project.shopapp.dtos.CategoryDTO;
+import com.project.shopapp.exceptions.DataNotFoundException;
 import com.project.shopapp.models.Category;
 import com.project.shopapp.services.CategoryService;
 import jakarta.validation.Valid;
@@ -43,7 +44,7 @@ public class CategoryController {
         return ResponseEntity.ok(categories);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/update/{id}")
     public ResponseEntity<String> updateCategory(@PathVariable Long id, @RequestBody CategoryDTO categoryDTO){
         Category category = categoryService.updateCategory(id, categoryDTO);
         if (category == null){
@@ -52,9 +53,14 @@ public class CategoryController {
         return ResponseEntity.ok("Cập nhật thành công");
     }
 
-    @DeleteMapping("/{id}")
+    @PutMapping("/delete/{id}")
     public ResponseEntity<String> deleteCategory(@PathVariable Long id){
-        categoryService.deleteCategory(id);
-        return ResponseEntity.ok("Xóa thành công category " + id);
+        try {
+            categoryService.deleteCategory(id);
+            return ResponseEntity.ok("Xóa thành công category " + id);
+
+        } catch (DataNotFoundException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

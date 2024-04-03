@@ -19,13 +19,12 @@ import java.util.List;
 public class OrderDetailService implements IOrderDetailService{
     private final OrderDetailReposiroty orderDetailReposiroty;
     private final ProductRepository productRepository;
-
     private final OrderRepository orderRepository;
     @Override
     public OrderDetail createOrderDetail(OrderDetailDTO orderDetailDTO) throws Exception {
-        Order existingOrder = orderRepository.findById(orderDetailDTO.getOrderId())
+        Order existingOrder = orderRepository.findByIdAndActive(orderDetailDTO.getOrderId(), true)
                 .orElseThrow(() -> new DataNotFoundException("Cannot find order by id: " + orderDetailDTO.getOrderId()));
-        Product existingProduct = productRepository.findById(orderDetailDTO.getProductId())
+        Product existingProduct = productRepository.findByIdAndActive(orderDetailDTO.getProductId(), true)
                 .orElseThrow(() -> new DataNotFoundException("Cannot find product by id: " + orderDetailDTO.getProductId()));
         OrderDetail orderDetail = OrderDetail.builder()
                 .order(existingOrder)
@@ -50,9 +49,9 @@ public class OrderDetailService implements IOrderDetailService{
     public OrderDetail updateOrderDetail(long id, OrderDetailDTO orderDetailDTO) throws DataNotFoundException {
         OrderDetail existingOrderDetail = orderDetailReposiroty.findById(id)
                 .orElseThrow(() -> new DataNotFoundException("Cannot find order detail by id: " + id));
-        Order existingOrder = orderRepository.findById(orderDetailDTO.getOrderId())
+        Order existingOrder = orderRepository.findByIdAndActive(orderDetailDTO.getOrderId(), true)
                 .orElseThrow(() -> new DataNotFoundException("Cannot find order by id: " + orderDetailDTO.getOrderId()));
-        Product existingProduct = productRepository.findById(orderDetailDTO.getProductId())
+        Product existingProduct = productRepository.findByIdAndActive(orderDetailDTO.getProductId(), true)
                 .orElseThrow(() -> new DataNotFoundException("Cannot find product by id: " + orderDetailDTO.getProductId()));
         existingOrderDetail.setOrder(existingOrder);
         existingOrderDetail.setPrice(orderDetailDTO.getPrice());
@@ -70,7 +69,7 @@ public class OrderDetailService implements IOrderDetailService{
 
     @Override
     public List<OrderDetail> getAllOrderDetail(long orderId) throws Exception {
-        Order existingOrder = orderRepository.findById(orderId)
+        Order existingOrder = orderRepository.findByIdAndActive(orderId, true)
                 .orElseThrow(() -> new DataNotFoundException("Cannot find order by id: " + orderId));
         List<OrderDetail> orderDetailList = orderDetailReposiroty.findByOrderId(orderId);
         return orderDetailList;

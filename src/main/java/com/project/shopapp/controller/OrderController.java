@@ -3,6 +3,7 @@ package com.project.shopapp.controller;
 import com.project.shopapp.dtos.OrderDTO;
 import com.project.shopapp.exceptions.DataNotFoundException;
 import com.project.shopapp.models.Order;
+import com.project.shopapp.responses.OrderResponse;
 import com.project.shopapp.services.OrderService;
 import com.project.shopapp.services.UserService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -32,7 +33,23 @@ public class OrderController {
             }
             Long userId = userService.getCurrent(request).getId();
             Order order = orderService.createOrder(orderDTO, userId);
-            return ResponseEntity.ok(order);
+            OrderResponse orderResponse = OrderResponse.builder()
+                    .id(order.getId())
+                    .fullName(order.getFullName())
+                    .email(order.getEmail())
+                    .address(order.getAddress())
+                    .phoneNumber(order.getPhoneNumber())
+                    .note(order.getNote())
+                    .totalMoney(order.getTotalMoney())
+                    .orderDate(order.getOrderDate())
+                    .status(order.getStatus())
+                    .shippingAdress(order.getShippingAdress())
+                    .shippingDate(order.getShippingDate())
+                    .shippingMethod(order.getShippingMethod())
+                    .trackingNumber(order.getTrackingNumber())
+                    .paymentMethod(order.getPaymentMethod())
+                    .build();
+            return ResponseEntity.ok(orderResponse);
         }
         catch (Exception e){
             return ResponseEntity.badRequest().body(e.getMessage());
@@ -42,7 +59,23 @@ public class OrderController {
     @GetMapping("/user/{user_id}")
     public ResponseEntity<?> getOrdersByUser(@PathVariable("user_id") int userId){
         try {
-            List<Order> orders = orderService.getAllOrdersByUser(userId);
+            List<OrderResponse> orders = orderService.getAllOrdersByUser(userId).stream()
+                    .map(order -> OrderResponse.builder()
+                            .id(order.getId())
+                            .fullName(order.getFullName())
+                            .email(order.getEmail())
+                            .address(order.getAddress())
+                            .phoneNumber(order.getPhoneNumber())
+                            .note(order.getNote())
+                            .totalMoney(order.getTotalMoney())
+                            .orderDate(order.getOrderDate())
+                            .status(order.getStatus())
+                            .shippingAdress(order.getShippingAdress())
+                            .shippingDate(order.getShippingDate())
+                            .shippingMethod(order.getShippingMethod())
+                            .trackingNumber(order.getTrackingNumber())
+                            .paymentMethod(order.getPaymentMethod())
+                            .build()).toList();
             return ResponseEntity.ok(orders);
         }
         catch (Exception e){
@@ -53,8 +86,24 @@ public class OrderController {
     @GetMapping("/{id}")
     public ResponseEntity<?> getOrderById(@PathVariable("id") int id){
         try {
-            Order existingOrder = orderService.getOrderById(id);
-            return ResponseEntity.ok(existingOrder);
+            Order order = orderService.getOrderById(id);
+            OrderResponse orderResponse = OrderResponse.builder()
+                    .id(order.getId())
+                    .fullName(order.getFullName())
+                    .email(order.getEmail())
+                    .address(order.getAddress())
+                    .phoneNumber(order.getPhoneNumber())
+                    .note(order.getNote())
+                    .totalMoney(order.getTotalMoney())
+                    .orderDate(order.getOrderDate())
+                    .status(order.getStatus())
+                    .shippingAdress(order.getShippingAdress())
+                    .shippingDate(order.getShippingDate())
+                    .shippingMethod(order.getShippingMethod())
+                    .trackingNumber(order.getTrackingNumber())
+                    .paymentMethod(order.getPaymentMethod())
+                    .build();
+            return ResponseEntity.ok(orderResponse);
         }
         catch (Exception e){
             return ResponseEntity.badRequest().body(e.getMessage());
@@ -72,8 +121,24 @@ public class OrderController {
                 List<String> errorMess = result.getFieldErrors().stream().map(FieldError::getDefaultMessage).toList();
                 return ResponseEntity.badRequest().body(errorMess);
             }
-            Order existingOrder = orderService.updateOrder(id, orderDTO);
-            return ResponseEntity.ok(existingOrder);
+            Order order = orderService.updateOrder(id, orderDTO);
+            OrderResponse orderResponse = OrderResponse.builder()
+                    .id(order.getId())
+                    .fullName(order.getFullName())
+                    .email(order.getEmail())
+                    .address(order.getAddress())
+                    .phoneNumber(order.getPhoneNumber())
+                    .note(order.getNote())
+                    .totalMoney(order.getTotalMoney())
+                    .orderDate(order.getOrderDate())
+                    .status(order.getStatus())
+                    .shippingAdress(order.getShippingAdress())
+                    .shippingDate(order.getShippingDate())
+                    .shippingMethod(order.getShippingMethod())
+                    .trackingNumber(order.getTrackingNumber())
+                    .paymentMethod(order.getPaymentMethod())
+                    .build();
+            return ResponseEntity.ok(orderResponse);
         }
         catch (Exception e){
             return ResponseEntity.badRequest().body(e.getMessage());
