@@ -34,6 +34,7 @@ public class ProductService implements IProductService{
                 .price(productDTO.getPrice())
                 .description(productDTO.getDescription())
                 .thumnail(productDTO.getThumnail())
+                .active(true)
                 .category(existingCategory)
                 .build();
         return productRepository.save(newProduct);
