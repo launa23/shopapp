@@ -171,10 +171,10 @@ public class ProductController {
                     }
                     // set thumnail cho sản phẩm khi thêm ảnh mới
                     String filename = storeFile(file);
-                    if (existingProduct.getThumnail() == null || existingProduct.getThumnail().equals("")){
+//                    if (existingProduct.getThumnail() == null || existingProduct.getThumnail().equals("")){
                         existingProduct.setThumnail(filename);
                         productService.updateProductThumnail(filename, id);
-                    }
+//                    }
                     ProductImage productImage = productService.createProductImage(existingProduct.getId(), ProductImageDTO.builder()
                             .imgeUrl(filename)
                             .build());
