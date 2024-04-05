@@ -64,6 +64,8 @@ public class WebSecurityConfig {
                                     String.format("%s/products/category/*", apiPrefix)).permitAll()
                             .requestMatchers(HttpMethod.GET,
                                     String.format("%s/categories/*", apiPrefix)).permitAll()
+                            .requestMatchers(HttpMethod.GET,
+                                    String.format("%s/payment/create_payment", apiPrefix)).permitAll()
                             .anyRequest().authenticated();
                 })
                 .csrf(AbstractHttpConfigurer::disable);
