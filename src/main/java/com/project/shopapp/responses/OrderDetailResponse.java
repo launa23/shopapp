@@ -19,7 +19,7 @@ public class OrderDetailResponse {
     private float price;
     private int numberOfProduct;
     private float totalMoney;
-    private String color;
+
 
     public static OrderDetailResponse fromOrderDetail(OrderDetail orderDetail){
         OrderDetailResponse orderDetailResponse = OrderDetailResponse.builder()
@@ -29,7 +29,6 @@ public class OrderDetailResponse {
                 .price(orderDetail.getPrice())
                 .totalMoney(orderDetail.getTotalMoney())
                 .numberOfProduct(orderDetail.getNumberOfProduct())
-                .color(orderDetail.getColor())
                 .build();
         return orderDetailResponse;
     }

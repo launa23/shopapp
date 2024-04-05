@@ -1,14 +1,20 @@
 package com.project.shopapp.dtos;
 
-import lombok.Getter;
-import lombok.Setter;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.*;
 
 import java.io.Serializable;
 
 @Getter
 @Setter
-public class PaymentDTO implements Serializable {
-    private String status;
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+public class PaymentDTO {
+    @JsonProperty("money")
+    private String money;
+    @JsonProperty("message")
     private String message;
-    private String URL;
+//    private String URL;
 }

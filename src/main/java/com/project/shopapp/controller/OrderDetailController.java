@@ -35,7 +35,6 @@ public class OrderDetailController {
                     .price(orderDetail.getPrice())
                     .totalMoney(orderDetail.getTotalMoney())
                     .numberOfProduct(orderDetail.getNumberOfProduct())
-                    .color(orderDetail.getColor())
                     .build();
             return ResponseEntity.ok(orderDetailResponse);
         }

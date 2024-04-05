@@ -41,7 +41,8 @@ public class WebSecurityConfig {
                             String.format("%s/user/login", apiPrefix),
                             String.format("%s/products", apiPrefix),
                             String.format("%s/categories", apiPrefix),
-                            String.format("%s/order", apiPrefix)
+                            String.format("%s/order", apiPrefix),
+                            String.format("%s/payment/create_payment", apiPrefix)
 
                     ).permitAll()
                             .requestMatchers(HttpMethod.POST,
@@ -64,7 +65,7 @@ public class WebSecurityConfig {
                                     String.format("%s/products/category/*", apiPrefix)).permitAll()
                             .requestMatchers(HttpMethod.GET,
                                     String.format("%s/categories/*", apiPrefix)).permitAll()
-                            .requestMatchers(HttpMethod.GET,
+                            .requestMatchers(HttpMethod.POST,
                                     String.format("%s/payment/create_payment", apiPrefix)).permitAll()
                             .anyRequest().authenticated();
                 })

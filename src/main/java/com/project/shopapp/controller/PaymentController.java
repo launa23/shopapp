@@ -1,14 +1,13 @@
 package com.project.shopapp.controller;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.project.shopapp.configurations.ConfigVNPay;
 import com.project.shopapp.dtos.PaymentDTO;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -19,14 +18,13 @@ import java.util.*;
 @RestController
 @RequestMapping("${api.prefix}/payment")
 public class PaymentController {
-    @GetMapping("/create_payment")
-    public ResponseEntity<?> createPayment(HttpServletRequest req) throws UnsupportedEncodingException {
+    @PostMapping("/create_payment")
+    public ResponseEntity<?> createPayment(HttpServletRequest req, @RequestBody PaymentDTO paymentDTO) throws UnsupportedEncodingException {
 
         String orderType = "other";
-//        long amount = Integer.parseInt(req.getParameter("amount"))*100;
+//        long amount = Integer.parseInt(req.getParameter("amount"))* 100L;
 //        String bankCode = req.getParameter("bankCode");
-
-        long amount = 1000000000;
+        long amount = Long.parseLong(paymentDTO.getMoney())*100;
 
         String vnp_TxnRef = ConfigVNPay.getRandomNumber(8);
         String vnp_IpAddr = ConfigVNPay.getIpAddress(req);
@@ -92,17 +90,17 @@ public class PaymentController {
         String vnp_SecureHash = ConfigVNPay.hmacSHA512(ConfigVNPay.secretKey, hashData.toString());
         queryUrl += "&vnp_SecureHash=" + vnp_SecureHash;
         String paymentUrl = ConfigVNPay.vnp_PayUrl + "?" + queryUrl;
-        PaymentDTO paymentDTO = new PaymentDTO();
-        paymentDTO.setStatus("OK");
-        paymentDTO.setMessage("Successfully!");
-        paymentDTO.setURL(paymentUrl);
+//        PaymentDTO paymentDTO = new PaymentDTO();
+//        paymentDTO.setStatus("OK");
+//        paymentDTO.setMessage("Successfully!");
+//        paymentDTO.setURL(paymentUrl);
 //        com.google.gson.JsonObject job = new JsonObject();
 //        job.addProperty("code", "00");
 //        job.addProperty("message", "success");
 //        job.addProperty("data", paymentUrl);
 //        Gson gson = new Gson();
 //        resp.getWriter().write(gson.toJson(job));
-        return ResponseEntity.status(HttpStatus.OK).body(paymentDTO);
+        return ResponseEntity.status(HttpStatus.OK).body(paymentUrl);
     }
 
     @GetMapping("/payment_info")
