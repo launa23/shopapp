@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
 @Service
 @RequiredArgsConstructor
@@ -36,7 +37,7 @@ public class OrderService implements IOrderService{
         order.setUser(user);
         order.setOrderDate(new Date());
         order.setStatus(OrderStatus.PENDING);
-
+        order.setOrderNumber("RT"+generateRandomString(10));
         //Kiểm tra shipping date phải >= ngày hôm nay
         LocalDate shippingDate = orderDTO.getShippingDate() == null ? LocalDate.now() : orderDTO.getShippingDate();
         if (shippingDate.isBefore(LocalDate.now())){
@@ -84,5 +85,18 @@ public class OrderService implements IOrderService{
                 .orElseThrow(() -> new DataNotFoundException("Cannot find order by id " + id));
         order.setActive(false);
         orderRepository.save(order);
+    }
+
+    private static String generateRandomString(int length) {
+        Random random = new Random();
+        StringBuilder sb = new StringBuilder(length);
+
+        // Tạo chuỗi số ngẫu nhiên
+        for (int i = 0; i < length; i++) {
+            int randomNumber = random.nextInt(10); // Giới hạn số ngẫu nhiên từ 0 đến 9
+            sb.append(randomNumber);
+        }
+
+        return sb.toString();
     }
 }

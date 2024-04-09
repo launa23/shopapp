@@ -43,10 +43,9 @@ public class OrderController {
                     .totalMoney(order.getTotalMoney())
                     .orderDate(order.getOrderDate())
                     .status(order.getStatus())
-                    .shippingAdress(order.getShippingAdress())
                     .shippingDate(order.getShippingDate())
                     .shippingMethod(order.getShippingMethod())
-                    .trackingNumber(order.getTrackingNumber())
+                    .orderNumber(order.getOrderNumber())
                     .paymentMethod(order.getPaymentMethod())
                     .build();
             return ResponseEntity.ok(orderResponse);
@@ -70,10 +69,9 @@ public class OrderController {
                             .totalMoney(order.getTotalMoney())
                             .orderDate(order.getOrderDate())
                             .status(order.getStatus())
-                            .shippingAdress(order.getShippingAdress())
                             .shippingDate(order.getShippingDate())
                             .shippingMethod(order.getShippingMethod())
-                            .trackingNumber(order.getTrackingNumber())
+                            .orderNumber(order.getOrderNumber())
                             .paymentMethod(order.getPaymentMethod())
                             .build()).toList();
             return ResponseEntity.ok(orders);
@@ -97,10 +95,9 @@ public class OrderController {
                     .totalMoney(order.getTotalMoney())
                     .orderDate(order.getOrderDate())
                     .status(order.getStatus())
-                    .shippingAdress(order.getShippingAdress())
                     .shippingDate(order.getShippingDate())
                     .shippingMethod(order.getShippingMethod())
-                    .trackingNumber(order.getTrackingNumber())
+                    .orderNumber(order.getOrderNumber())
                     .paymentMethod(order.getPaymentMethod())
                     .build();
             return ResponseEntity.ok(orderResponse);
@@ -132,10 +129,9 @@ public class OrderController {
                     .totalMoney(order.getTotalMoney())
                     .orderDate(order.getOrderDate())
                     .status(order.getStatus())
-                    .shippingAdress(order.getShippingAdress())
                     .shippingDate(order.getShippingDate())
                     .shippingMethod(order.getShippingMethod())
-                    .trackingNumber(order.getTrackingNumber())
+                    .orderNumber(order.getOrderNumber())
                     .paymentMethod(order.getPaymentMethod())
                     .build();
             return ResponseEntity.ok(orderResponse);

@@ -50,14 +50,11 @@ public class Order {
     @Column(name = "shipping_method", length = 100)
     private String shippingMethod;
 
-    @Column(name = "shipping_address", length = 200)
-    private String shippingAdress;
-
     @Column(name = "shipping_date")
     private LocalDate shippingDate;
 
-    @Column(name = "tracking_number", length = 100)
-    private String trackingNumber;
+    @Column(name = "order_number", length = 100)
+    private String orderNumber;
 
     @Column(name = "payment_method", length = 100)
     private String paymentMethod;

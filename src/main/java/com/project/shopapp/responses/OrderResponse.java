@@ -19,8 +19,6 @@ import java.util.Date;
 public class OrderResponse {
     private Long id;
 
-    private long userId;
-
     private String fullName;
 
     private String email;
@@ -39,11 +37,9 @@ public class OrderResponse {
 
     private String shippingMethod;
 
-    private String shippingAdress;
-
     private LocalDate shippingDate;
 
-    private String trackingNumber;
+    private String orderNumber;
 
     private String paymentMethod;
 }
