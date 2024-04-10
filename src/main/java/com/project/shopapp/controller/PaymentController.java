@@ -18,8 +18,10 @@ import java.util.*;
 @RestController
 @RequestMapping("${api.prefix}/payment")
 public class PaymentController {
-    @PostMapping("/create_payment")
-    public ResponseEntity<?> createPayment(HttpServletRequest req, @RequestBody PaymentDTO paymentDTO) throws UnsupportedEncodingException {
+    @PostMapping("/create_payment/{id}")
+    public ResponseEntity<?> createPayment(HttpServletRequest req,
+                                           @PathVariable("id") long id,
+                                           @RequestBody PaymentDTO paymentDTO) throws UnsupportedEncodingException {
 
         String orderType = "other";
 //        long amount = Integer.parseInt(req.getParameter("amount"))* 100L;
@@ -38,7 +40,7 @@ public class PaymentController {
         vnp_Params.put("vnp_Amount", String.valueOf(amount));
         vnp_Params.put("vnp_CurrCode", "VND");
         vnp_Params.put("vnp_BankCode", "NCB");
-        vnp_Params.put("vnp_TxnRef", vnp_TxnRef);
+        vnp_Params.put("vnp_TxnRef", vnp_TxnRef + id);
         vnp_Params.put("vnp_OrderInfo", "Thanh toan don hang:" + vnp_TxnRef);
         vnp_Params.put("vnp_Locale", "vn");
         vnp_Params.put("vnp_ReturnUrl", ConfigVNPay.vnp_ReturnUrl);

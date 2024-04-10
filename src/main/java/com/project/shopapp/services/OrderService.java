@@ -43,7 +43,10 @@ public class OrderService implements IOrderService{
         if (shippingDate.isBefore(LocalDate.now())){
             throw new DataNotFoundException("Date must be at least today");
         }
-        order.setActive(true);
+        if (orderDTO.getPaymentMethod() == 0){
+            order.setActive(true);
+        }
+        else order.setActive(false);
         order.setShippingDate(shippingDate);
         orderRepository.save(order);
 
@@ -87,6 +90,14 @@ public class OrderService implements IOrderService{
         orderRepository.save(order);
     }
 
+    @Override
+    public void updateActionOrder(long id) throws DataNotFoundException {
+        Order order = orderRepository.findById(id)
+                .orElseThrow(() -> new DataNotFoundException("Cannot find order by id " + id));
+        order.setActive(true);
+        orderRepository.save(order);
+    }
+
     private static String generateRandomString(int length) {
         Random random = new Random();
         StringBuilder sb = new StringBuilder(length);
@@ -99,4 +110,6 @@ public class OrderService implements IOrderService{
 
         return sb.toString();
     }
+
+
 }

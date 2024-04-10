@@ -153,4 +153,16 @@ public class OrderController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
+
+    @PutMapping("/active/{id}")
+    public ResponseEntity<?> updateActiveOrder(
+            @Valid @PathVariable long id
+    ){
+        try {
+            orderService.updateActionOrder(id);
+            return ResponseEntity.ok("Cập nhật đơn hàng: "+id);
+        } catch (DataNotFoundException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
 }
