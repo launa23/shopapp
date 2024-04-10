@@ -17,7 +17,10 @@ public class CategoryService implements ICategoryService{
     private final CategoryRepository categoryRepository;
     private final ProductRepository productRepository;
     @Override
-    public Category createCategory(CategoryDTO categoryDTO) {
+    public Category createCategory(CategoryDTO categoryDTO) throws DataNotFoundException {
+        if (categoryRepository.existsByNameAndActive(categoryDTO.getName(), true)){
+            throw new DataNotFoundException("Category's name is already exists");
+        }
         Category newCategory = Category.builder()
                 .name(categoryDTO.getName())
                 .active(true)
@@ -37,7 +40,10 @@ public class CategoryService implements ICategoryService{
     }
 
     @Override
-    public Category updateCategory(long id, CategoryDTO categoryDTO) {
+    public Category updateCategory(long id, CategoryDTO categoryDTO) throws DataNotFoundException {
+        if (categoryRepository.existsByNameAndActive(categoryDTO.getName(), true)){
+            throw new DataNotFoundException("Category's name is already exists");
+        }
         Category existingCategory = getCategoryById(id);
         if (existingCategory != null){
             existingCategory.setName(categoryDTO.getName());

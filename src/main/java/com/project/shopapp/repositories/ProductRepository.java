@@ -13,6 +13,8 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
     Optional<Product> findByIdAndActive(long id, boolean active);
     boolean existsByName(String name);
+    boolean existsByNameAndActive(String name, boolean active);
+
 //    Phân trang
     Page<Product> findAllByActive(Pageable pageable, boolean active);
     Page<Product> findByCategoryIdAndActive(Pageable pageable, long id, boolean active);

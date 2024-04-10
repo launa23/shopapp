@@ -26,6 +26,9 @@ public class ProductService implements IProductService{
     private final ProductImageRepository productImageRepository;
     @Override
     public Product createProduct(ProductDTO productDTO) throws DataNotFoundException {
+        if (productRepository.existsByNameAndActive(productDTO.getName(), true)){
+            throw new DataNotFoundException("Product's name is already exists");
+        }
         Category existingCategory = categoryRepository.findByIdAndActive(productDTO.getCategoryId(), true)
                 .orElseThrow(() ->
                         new DataNotFoundException("Cannot find category with id: " + productDTO.getCategoryId()));
@@ -86,6 +89,9 @@ public class ProductService implements IProductService{
 
     @Override
     public Product updateProduct(ProductDTO productDTO, long id) throws Exception {
+        if (productRepository.existsByNameAndActive(productDTO.getName(), true)){
+            throw new DataNotFoundException("Product's name is already exists");
+        }
         Product existingProduct = getProductById(id);
         if (existingProduct != null){
             Category existingCategory = categoryRepository.findByIdAndActive(productDTO.getCategoryId(), true)
