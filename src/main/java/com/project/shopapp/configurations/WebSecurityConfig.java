@@ -53,12 +53,13 @@ public class WebSecurityConfig {
                             .requestMatchers(HttpMethod.PUT,
                                     String.format("%s/categories/delete/**", apiPrefix)).hasRole(Role.ADMIN)
                             .requestMatchers(HttpMethod.PUT,
+                                    String.format("%s/order/update/status/**", apiPrefix)).hasRole(Role.ADMIN)
+                            .requestMatchers(HttpMethod.PUT,
                                     String.format("%s/categories/update/**", apiPrefix)).hasRole(Role.ADMIN)
                             .requestMatchers(HttpMethod.GET,
                                     String.format("%s/order/**", apiPrefix)).hasAnyRole(Role.USER, Role.ADMIN)
                             .requestMatchers(HttpMethod.PUT,
                                     String.format("%s/order/**", apiPrefix)).hasRole(Role.ADMIN)
-
                             .requestMatchers(HttpMethod.GET,
                                     String.format("%s/products/image/*", apiPrefix)).permitAll()
                             .requestMatchers(HttpMethod.GET,

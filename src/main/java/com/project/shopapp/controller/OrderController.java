@@ -9,6 +9,7 @@ import com.project.shopapp.services.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -162,6 +163,19 @@ public class OrderController {
             orderService.updateActionOrder(id);
             return ResponseEntity.ok("Cập nhật đơn hàng: "+id);
         } catch (DataNotFoundException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @PutMapping("/update/status/{status}/{id}")
+    public ResponseEntity<?> updateStatusOrder(
+            @Valid @PathVariable long id,
+            @PathVariable("status") String status
+    ){
+        try {
+            orderService.updateStatusOrder(id, status);
+            return ResponseEntity.ok("Cập nhật đơn hàng: "+id);
+        } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }

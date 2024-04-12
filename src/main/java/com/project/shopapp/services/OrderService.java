@@ -91,6 +91,14 @@ public class OrderService implements IOrderService{
     }
 
     @Override
+    public void updateStatusOrder(long id, String status) throws Exception {
+        Order order = orderRepository.findById(id)
+                .orElseThrow(() -> new DataNotFoundException("Cannot find order by id " + id));
+        order.setStatus(status);
+        orderRepository.save(order);
+    }
+
+    @Override
     public void updateActionOrder(long id) throws DataNotFoundException {
         Order order = orderRepository.findById(id)
                 .orElseThrow(() -> new DataNotFoundException("Cannot find order by id " + id));
