@@ -89,10 +89,12 @@ public class ProductService implements IProductService{
 
     @Override
     public Product updateProduct(ProductDTO productDTO, long id) throws Exception {
-        if (productRepository.existsByNameAndActive(productDTO.getName(), true)){
+
+        Product existingProduct = getProductById(id);
+        if (productRepository.existsByNameAndActive(productDTO.getName(), true) &&
+                !existingProduct.getName().equals(productDTO.getName())){
             throw new DataNotFoundException("Product's name is already exists");
         }
-        Product existingProduct = getProductById(id);
         if (existingProduct != null){
             Category existingCategory = categoryRepository.findByIdAndActive(productDTO.getCategoryId(), true)
                     .orElseThrow(() ->
