@@ -86,6 +86,29 @@ public class UserService implements IUserService{
     }
 
     @Override
+    public String loginAdmin(String phoneNumber, String password) throws Exception {
+        Optional<User> optionalUser = userRepository.findByPhoneNumberAndRole_Id(phoneNumber, 1);
+        if (optionalUser.isEmpty()){
+            throw new DataNotFoundException("Invalid phone number or password");
+        }
+
+        User existingUser = optionalUser.get();
+        // kiểm tra password
+        if (existingUser.getFacebookAccountId() == 0 && existingUser.getGoogleAccountId() == 0){
+            if(!passwordEncoder.matches(password, existingUser.getPassword())){
+                throw new BadCredentialsException("Wrong phone number or passord!");
+            }
+        }
+        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
+                phoneNumber, password, existingUser.getAuthorities()
+        );
+        // Xác thực với spring
+        authenticationManager.authenticate(authenticationToken);
+        // Khi đăng nhập thành công thì sẽ lấy thông tin của user đó biến nó thành token
+        return jwtTokenUtil.generateToken(existingUser);
+    }
+
+    @Override
     public UserResponse getCurrent(HttpServletRequest request) throws Exception {
         String authenHeader = request.getHeader("Authorization");
         final String token = authenHeader.substring(7);         // cắt bỏ chữ "Bearer " trong chuỗi bearer token để lấy token

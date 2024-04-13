@@ -11,5 +11,6 @@ public interface IUserService {
 
     String login(String phoneNumber, String password) throws Exception;
 
+    String loginAdmin(String phoneNumber, String password) throws Exception;
     UserResponse getCurrent(HttpServletRequest request) throws Exception;
 }

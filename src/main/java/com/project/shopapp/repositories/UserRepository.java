@@ -10,4 +10,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     Optional<User> findByPhoneNumber(String phoneNumber);       //trả về User nếu có, nếu không thì trả về null
 
+    Optional<User> findByPhoneNumberAndRole_Id(String phoneNumber, long roleId);       //trả về User nếu có, nếu không thì trả về null
+
 }

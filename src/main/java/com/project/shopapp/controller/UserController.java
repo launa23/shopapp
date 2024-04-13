@@ -54,6 +54,17 @@ public class UserController {
         }
     }
 
+    @PostMapping("/admin/login")
+    public ResponseEntity<String> loginAdmin(@Valid @RequestBody UserLoginDTO userLoginDTO){
+        // Kiểm tra thông tin đăng nhập và trả về token
+        try {
+            String token = userService.loginAdmin(userLoginDTO.getPhoneNumber(), userLoginDTO.getPassword());
+            return ResponseEntity.ok(token);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
     @GetMapping("/current")
     public ResponseEntity<?> getCurrentUser(HttpServletRequest request){
         try{
