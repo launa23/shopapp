@@ -64,7 +64,7 @@ public class UserService implements IUserService{
 
     @Override
     public String login(String phoneNumber, String password) throws Exception {
-        Optional<User> optionalUser = userRepository.findByPhoneNumber(phoneNumber);
+        Optional<User> optionalUser = userRepository.findByPhoneNumberAndRole_Id(phoneNumber, 0);
         if (optionalUser.isEmpty()){
             throw new DataNotFoundException("Invalid phone number or password");
         }
