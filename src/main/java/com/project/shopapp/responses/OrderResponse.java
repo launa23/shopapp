@@ -7,6 +7,7 @@ import jakarta.persistence.MappedSuperclass;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Data
@@ -29,7 +30,7 @@ public class OrderResponse {
 
     private String note;
 
-    private Date orderDate;
+    private LocalDateTime orderDate;
 
     private String status;
 

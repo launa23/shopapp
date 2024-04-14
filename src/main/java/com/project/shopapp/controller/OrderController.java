@@ -82,6 +82,17 @@ public class OrderController {
         }
     }
 
+    @GetMapping("/all")
+    public ResponseEntity<?> getAllOrder(){
+        try {
+            List<OrderResponse> orderResponse = orderService.getAllOrders();
+            return ResponseEntity.ok(orderResponse);
+        }
+        catch (Exception e){
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<?> getOrderById(@PathVariable("id") int id){
         try {

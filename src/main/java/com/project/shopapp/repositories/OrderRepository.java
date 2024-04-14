@@ -9,4 +9,6 @@ import java.util.Optional;
 public interface OrderRepository extends JpaRepository<Order, Long> {
     List<Order> findByUserIdAndActive(Long userId, boolean active);
     Optional<Order> findByIdAndActive(long id, boolean active);
+
+    List<Order> findAllByActive(boolean active);
 }

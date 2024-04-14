@@ -7,11 +7,13 @@ import com.project.shopapp.models.OrderStatus;
 import com.project.shopapp.models.User;
 import com.project.shopapp.repositories.OrderRepository;
 import com.project.shopapp.repositories.UserRepository;
+import com.project.shopapp.responses.OrderResponse;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
@@ -35,7 +37,7 @@ public class OrderService implements IOrderService{
         Order order = new Order();
         modelMapper.map(orderDTO, order);
         order.setUser(user);
-        order.setOrderDate(new Date());
+        order.setOrderDate(LocalDateTime.now());
         order.setStatus(OrderStatus.PENDING);
         order.setOrderNumber("RT"+generateRandomString(10));
         //Kiểm tra shipping date phải >= ngày hôm nay
@@ -67,6 +69,26 @@ public class OrderService implements IOrderService{
         }
         return orderRepository.findByUserIdAndActive(userId, true);
 
+    }
+
+    @Override
+    public List<OrderResponse> getAllOrders() throws Exception {
+
+        return orderRepository.findAllByActive(true).stream().map(order -> OrderResponse.builder()
+                .id(order.getId())
+                .fullName(order.getFullName())
+                .phoneNumber(order.getPhoneNumber())
+                .address(order.getAddress())
+                .note(order.getNote())
+                .email(order.getEmail())
+                .orderDate(order.getOrderDate())
+                .orderNumber(order.getOrderNumber())
+                .paymentMethod(order.getPaymentMethod())
+                .totalMoney(order.getTotalMoney())
+                .shippingMethod(order.getShippingMethod())
+                .orderNumber(order.getOrderNumber())
+                .status(order.getStatus())
+                .build()).toList();
     }
 
     @Override

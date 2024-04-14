@@ -20,28 +20,20 @@ public class OrderDTO {
 
     @JsonProperty("fullname")
     private String fullName;
-
     private String email;
-
     @Size(min = 4, max = 10, message = "Phone number must be at least 5 characters")
     @NotBlank(message = "Phone number is required")
     @JsonProperty("phone_number")
     private String phoneNumber;
-
     private String address;
-
     private String note;
-
     @Min(value = 1, message = "Total money must be > 0")
     @JsonProperty("total_money")
     private float totalMoney;
-
     @JsonProperty("shipping_method")
     private String shippingMethod;
-
     @JsonProperty("shipping_date")
     private LocalDate shippingDate;
-
     @JsonProperty("payment_method")
     private float paymentMethod;
 }

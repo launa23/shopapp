@@ -213,8 +213,15 @@ public class ProductController {
         return contentType != null && contentType.startsWith("/image");
     }
     @PutMapping("/update/{id}")
-    public ResponseEntity<?> updateProducts(@PathVariable Long id, @Valid @RequestBody ProductDTO productDTO){
+    public ResponseEntity<?> updateProducts(@PathVariable Long id,
+                                            @Valid @RequestBody ProductDTO productDTO,
+                                            BindingResult result
+    ){
         try {
+            if (result.hasErrors()) {
+                List<String> errorMess = result.getFieldErrors().stream().map(FieldError::getDefaultMessage).toList();
+                return ResponseEntity.badRequest().body(errorMess);
+            }
             Product product = productService.updateProduct(productDTO, id);
             ProductResponse productResponse = ProductResponse.builder()
                     .id(product.getId())
