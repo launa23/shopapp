@@ -41,7 +41,7 @@ public class WebSecurityConfig {
                             String.format("%s/user/login", apiPrefix),
                             String.format("%s/user/admin/login", apiPrefix),
                             String.format("%s/products", apiPrefix),
-//                            String.format("%s/categories", apiPrefix),
+                            String.format("%s/categories", apiPrefix),
                             String.format("%s/order", apiPrefix),
                             String.format("%s/payment/create_payment/**", apiPrefix),
                             String.format("%s/order/active/*", apiPrefix)
@@ -61,8 +61,8 @@ public class WebSecurityConfig {
                                     String.format("%s/categories/update/**", apiPrefix)).hasRole(Role.ADMIN)
                             .requestMatchers(HttpMethod.GET,
                                     String.format("%s/order/**", apiPrefix)).hasAnyRole(Role.USER, Role.ADMIN)
-                            .requestMatchers(HttpMethod.GET,
-                                    String.format("%s/categories", apiPrefix)).hasAnyRole(Role.USER, Role.ADMIN)
+//                            .requestMatchers(HttpMethod.GET,
+//                                    String.format("%s/categories", apiPrefix)).hasAnyRole(Role.USER, Role.ADMIN)
                             .requestMatchers(HttpMethod.PUT,
                                     String.format("%s/order/**", apiPrefix)).hasRole(Role.ADMIN)
                             .requestMatchers(HttpMethod.GET,
